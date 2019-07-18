@@ -42,10 +42,10 @@ public class FixturesTest extends BaseADFTest {
     /**
      * Tests if the wifi is on
      */
-    @Test
-    public void testWifiOn (){
-        assertIdStatus(R.id.wifi, true);
-    }
+//    @Test
+//    public void testWifiOn (){
+//        assertIdStatus(R.id.wifi, true);
+//    }
 
     /**
      * Tests if the bluetooth is on
@@ -66,10 +66,10 @@ public class FixturesTest extends BaseADFTest {
     /**
      * Tests if the nfc is on. Fails on devices with no nfc support
      */
-    @Test
-    public void testNfcOn() {
-        assertIdStatus(R.id.nfc, true);
-    }
+//    @Test
+//    public void testNfcOn() {
+//        assertIdStatus(R.id.nfc, true);
+//    }
 
     /**
      * Asserts the status of a specific id

@@ -66,12 +66,12 @@ public class GesturesTest extends InputControlsBase {
     /**
      * Tests a single press gesture by performing it and then checking if the action is displayed
      */
-    @Test
-    public void testSinglePress(){
-        clickId(R.id.input_gesture_action_pad);
-        checkIfActionIsDisplayed("Single tap confirmed");
-
-    }
+//    @Test
+//    public void testSinglePress(){
+//        clickId(R.id.input_gesture_action_pad);
+//        checkIfActionIsDisplayed("Single tap confirmed");
+//
+//    }
 
     /**
      * Checks the last gesture text out put with an expected gesture

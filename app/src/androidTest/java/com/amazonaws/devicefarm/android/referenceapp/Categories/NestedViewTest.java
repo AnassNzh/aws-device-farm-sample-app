@@ -57,23 +57,23 @@ public class NestedViewTest extends BaseADFTest {
      *
      * The counter is then verified in order to see if the correct value is displayed.
      */
-    @Test
-    public void testBackNavigation() {
-        checkMainView();
-        clickId(R.id.nested_back_button);
-        checkIfIdIsDisplayedWithText(R.id.back_navigation_counter, "1");
-        for (int i = 0; i < 9; i++) {
-            clickId(R.id.back_navigation_next_button);
-        }
-
-        checkIfIdIsDisplayedWithText(R.id.back_navigation_counter, "10");
-
-        for (int i = 0; i < 9; i++) {
-            pressBack();
-        }
-
-        checkIfIdIsDisplayedWithText(R.id.back_navigation_counter, "1");
-    }
+//    @Test
+//    public void testBackNavigation() {
+//        checkMainView();
+//        clickId(R.id.nested_back_button);
+//        checkIfIdIsDisplayedWithText(R.id.back_navigation_counter, "1");
+//        for (int i = 0; i < 9; i++) {
+//            clickId(R.id.back_navigation_next_button);
+//        }
+//
+//        checkIfIdIsDisplayedWithText(R.id.back_navigation_counter, "10");
+//
+//        for (int i = 0; i < 9; i++) {
+//            pressBack();
+//        }
+//
+//        checkIfIdIsDisplayedWithText(R.id.back_navigation_counter, "1");
+//    }
 
     /**
      * Checks to see if at the main menu

@@ -85,22 +85,22 @@ public class WebViewTests extends BaseADFTest{
     /**
      * Tests if the error toast is displayed when a bad url is entered in the url bar
      */
-    @Test
-    public void testInputInvalidUrl(){
-        final String BAD_URL = "a bad url string";
-        typeInWebBar(BAD_URL);
-        verifyToastMessage(R.string.web_error_toast);
-    }
+//    @Test
+//    public void testInputInvalidUrl(){
+//        final String BAD_URL = "a bad url string";
+//        typeInWebBar(BAD_URL);
+//        verifyToastMessage(R.string.web_error_toast);
+//    }
 
     /**
      * Tests to see if google is loaded when navigated to Google.com
      */
-    @Test
-    public void testNavigateToWebSite() {
-        final String URL = "http://www.google.com/";
-        typeInWebBar(URL);
-        checkIdWithContentDescription(R.id.webView_browser, "www.google.com");
-    }
+//    @Test
+//    public void testNavigateToWebSite() {
+//        final String URL = "http://www.google.com/";
+//        typeInWebBar(URL);
+//        checkIdWithContentDescription(R.id.webView_browser, "www.google.com");
+//    }
 
     /**
      * Types and navigates to url
