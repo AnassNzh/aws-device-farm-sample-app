@@ -59,5 +59,3 @@ instrumentation_test_dev_debug:
 
     # deploy to gcloud and run instrumented test
     - gcloud firebase test android run --type instrumentation --app app.apk --test app-test.apk --device model=Nexus6P,version=26,locale=en,orientation=portrait
-  dependencies:
-    - build_dev_debug
