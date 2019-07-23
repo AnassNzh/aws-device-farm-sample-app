@@ -1,44 +1,63 @@
-image: openjdk:8-jdk
-
-variables:
-  ANDROID_COMPILE_SDK: "22"
-  ANDROID_BUILD_TOOLS: "26.0.2"
-  ANDROID_SDK_TOOLS:   "4333796"
+image: jangrewe/gitlab-ci-android
 
 before_script:
-  - apt-get --quiet update --yes
-  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
-  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip
-  - unzip -d android-sdk-linux android-sdk.zip
-  - echo y | android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
-  - echo y | android-sdk-linux/tools/bin/sdkmanager "platform-tools" >/dev/null
-  - echo y | android-sdk-linux/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
-  - export ANDROID_HOME=$PWD/android-sdk-linux
-  - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
   - chmod +x ./gradlew
-  # temporarily disable checking for EPIPE error and use yes to accept all licenses
-  - set +o pipefail
-  - yes | android-sdk-linux/tools/bin/sdkmanager --licenses
-  - set -o pipefail
 
 stages:
   - build
   - test
 
-lintDebug:
-  stage: build
-  script:
-    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .gradle/
 
-assembleDebug:
+build_dev_debug:
   stage: build
   script:
-    - ./gradlew assembleDebug
+    - ./gradlew assembleDevDebug
+    - ./gradlew assembleDevDebugAndroidTest
+  only:
+    - dev
   artifacts:
     paths:
-    - app/build/outputs/
+      - app/build/outputs/
 
-debugTests:
+instrumentation_test_dev_debug:
   stage: test
+  only:
+    - dev
+  before_script:
+    # Preparing wget
+    - apt-get update
+    - apt-get upgrade -y
+    - apt install python2.7 python-pip -y
+    - apt-get install wget
+
+    # Install Google Cloud SDK
+    - wget --quiet --output-document=/tmp/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
+    - mkdir -p /opt
+    - tar zxf /tmp/google-cloud-sdk.tar.gz --directory /opt
+    - /opt/google-cloud-sdk/install.sh --quiet
+    - source /opt/google-cloud-sdk/path.bash.inc
+
+    # Setup and configure the project
+    - gcloud components update
+    - gcloud config set project $PROJECT_ID
+
+    # Activate cloud credentials
+    - echo $SERVICE_ACCOUNT > /tmp/service-account.json
+    - gcloud auth activate-service-account --key-file /tmp/service-account.json
+
+    # Selecting Firebase Project
+    - gcloud config set project simple-test-41f5c
   script:
-    - ./gradlew -Pci --console=plain :app:testDebug
+    # copy file to root and rename it for easier access
+    - cp app/build/outputs/apk/dev/debug/app-dev-debug.apk ./app.apk
+    - cp app/build/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk ./app-test.apk
+
+    # deploy to gcloud and run instrumented test
+    - gcloud firebase test android run --type instrumentation --app app.apk --test app-test.apk --device model=Nexus6P,version=26,locale=en,orientation=portrait
+  dependencies:
+    - build_dev_debug
