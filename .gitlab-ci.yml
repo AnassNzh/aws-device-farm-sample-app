@@ -16,8 +16,8 @@ cache:
 build_dev_debug:
   stage: build
   script:
-    - ./gradlew assembleDevDebug
-    - ./gradlew assembleDevDebugAndroidTest
+    - ./gradlew assembleDebug
+    - ./gradlew assembleDebugAndroidTest
   artifacts:
     paths:
       - app/build/outputs/
