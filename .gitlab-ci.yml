@@ -46,8 +46,6 @@ instrumentation_test_dev_debug:
     - echo $SERVICE_ACCOUNT > /tmp/service-account.json
     - gcloud auth activate-service-account --key-file /tmp/service-account.json
 
-    # Selecting Firebase Project
-    - gcloud config set project simple-test-41f5c
   script:
     # copy file to root and rename it for easier access
     - cp app/build/outputs/apk/dev/debug/app-dev-debug.apk ./app.apk
