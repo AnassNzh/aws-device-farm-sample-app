@@ -24,8 +24,6 @@ build_dev_debug:
 
 instrumentation_test_dev_debug:
   stage: test
-  only:
-    - dev
   before_script:
     # Preparing wget
     - apt-get update
