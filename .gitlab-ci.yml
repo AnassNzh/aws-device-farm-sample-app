@@ -43,15 +43,14 @@ instrumentation_test_debug:
     - gcloud config set project $PROJECT_ID
 
     # Activate cloud credentials
-    - echo $SERVICE_ACCOUNT
     - echo $SERVICE_ACCOUNT > /tmp/service-account.json
-    - cat /tmp/service-account.json
     - gcloud auth activate-service-account --key-file /tmp/service-account.json
 
   script:
     # copy file to root and rename it for easier access
-    - cp app/build/outputs/apk/debug/app-debug.apk ./app.apk
-    - cp app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./app-test.apk
+    - ls app/build/outputs/apk/
+    - cp app/build/outputs/apk/app-debug.apk ./app.apk
+    - cp app/build/outputs/apk/app-debug-androidTest.apk ./app-test.apk
 
     # deploy to gcloud and run instrumented test
     - gcloud firebase test android run --type instrumentation --app app.apk --test app-test.apk --device model=Nexus6P,version=26,locale=en,orientation=portrait
