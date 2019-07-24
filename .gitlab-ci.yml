@@ -13,7 +13,7 @@ cache:
   paths:
     - .gradle/
 
-build_dev_debug:
+build_debug:
   stage: build
   script:
     - ./gradlew assembleDebug
@@ -22,7 +22,7 @@ build_dev_debug:
     paths:
       - app/build/outputs/
 
-instrumentation_test_dev_debug:
+instrumentation_test_debug:
   stage: test
   before_script:
     # Preparing wget
@@ -50,10 +50,10 @@ instrumentation_test_dev_debug:
 
   script:
     # copy file to root and rename it for easier access
-    - cp app/build/outputs/apk/dev/debug/app-dev-debug.apk ./app.apk
-    - cp app/build/outputs/apk/androidTest/dev/debug/app-dev-debug-androidTest.apk ./app-test.apk
+    - cp app/build/outputs/apk/debug/app-debug.apk ./app.apk
+    - cp app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk ./app-test.apk
 
     # deploy to gcloud and run instrumented test
     - gcloud firebase test android run --type instrumentation --app app.apk --test app-test.apk --device model=Nexus6P,version=26,locale=en,orientation=portrait
   dependencies:
-    - build_dev_debug
+    - build_debug
