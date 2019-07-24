@@ -43,7 +43,9 @@ instrumentation_test_dev_debug:
     - gcloud config set project $PROJECT_ID
 
     # Activate cloud credentials
+    - echo $SERVICE_ACCOUNT
     - echo $SERVICE_ACCOUNT > /tmp/service-account.json
+    - cat /tmp/service-account.json
     - gcloud auth activate-service-account --key-file /tmp/service-account.json
 
   script:
